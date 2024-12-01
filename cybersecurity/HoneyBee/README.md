@@ -95,3 +95,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [Scikit-learn](https://scikit-learn.org/)
 - [Flask](https://flask.palletsprojects.com/)
 - [Plotly](https://plotly.com/)
+
+## Note
+
+this project is still a work under progress

@@ -78,6 +78,13 @@ def get_attacks():
         logs = [json.loads(line) for line in log_file]
     return jsonify(logs)
 
+@app.route('/credentials')
+def credentials():
+    return jsonify({
+        'username': Config.ADMIN_USERNAME,
+        'password': 'The password is stored as a hash and cannot be retrieved directly.'
+    })
+
 def create_dash_app(flask_app):
     dash_app = dash.Dash(__name__, server=flask_app, url_base_pathname='/dash/')
     dash_app.layout = dash.html.Div([
