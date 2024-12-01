@@ -4,6 +4,8 @@ import dash
 import plotly.express as px
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
+import json
+import pandas as pd
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -38,6 +40,7 @@ def login():
         if username == Config.ADMIN_USERNAME and User.check_password(password):
             user = User(username)
             login_user(user)
+            session['username'] = username
             next_page = request.args.get('next')
             return redirect(next_page or url_for('dashboard'))
         flash('Invalid username or password')
@@ -48,7 +51,20 @@ def login():
 @login_required
 def logout():
     logout_user()
+    session.pop('username', None)
     return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        password_hash = generate_password_hash(password)
+        # Save the new user to the database
+        flash('User registered successfully')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
 
 @app.route('/')
 @login_required
@@ -58,9 +74,30 @@ def dashboard():
 @app.route('/api/attacks')
 @login_required
 def get_attacks():
-    # Return real-time attack data
-    pass
+    with open('SSH_honeypot.log', 'r') as log_file:
+        logs = [json.loads(line) for line in log_file]
+    return jsonify(logs)
 
 def create_dash_app(flask_app):
-    # Create Plotly Dash application
-    pass
+    dash_app = dash.Dash(__name__, server=flask_app, url_base_pathname='/dash/')
+    dash_app.layout = dash.html.Div([
+        dash.html.H1('Attack Data Visualization'),
+        dash.dcc.Graph(id='attack-graph')
+    ])
+
+    @dash_app.callback(
+        dash.Output('attack-graph', 'figure'),
+        [dash.Input('interval-component', 'n_intervals')]
+    )
+    def update_graph(n):
+        with open('SSH_honeypot.log', 'r') as log_file:
+            logs = [json.loads(line) for line in log_file]
+        df = pd.DataFrame(logs)
+        fig = px.histogram(df, x='timestamp', title='Attack Frequency Over Time')
+        return fig
+
+    return dash_app
+
+if __name__ == "__main__":
+    create_dash_app(app)
+    app.run(debug=True)
