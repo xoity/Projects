@@ -1,0 +1,7 @@
+{
+    "password_policy": {
+        "minlen": 12,
+        "minChars": 12,
+        "minPasswordLength": 12
+    }
+}

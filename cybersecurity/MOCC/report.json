@@ -1,0 +1,30 @@
+{
+    "os": "Linux",
+    "checks": [
+        {
+            "check": "Password Policy",
+            "status": "Compliant",
+            "details": "minlen not set"
+        },
+        {
+            "check": "Firewall Status",
+            "status": "Compliant",
+            "details": "Status: active"
+        },
+        {
+            "check": "Automatic Updates",
+            "status": "Compliant",
+            "details": "not-found Unattended upgrades not enabled"
+        },
+        {
+            "check": "Open Ports",
+            "status": "Info",
+            "details": "Netid State Recv-Q Send-Q Local Address:Port Peer Address:Port udp UNCONN 0 0 224.0.0.251:5353 0.0.0.0:* udp UNCONN 0 0 224.0.0.251:5353 0.0.0.0:* udp UNCONN 0 0 0.0.0.0:43846 0.0.0.0:* udp UNCONN 0 0 192.168.0.124:44116 0.0.0.0:* udp UNCONN 0 0 192.168.0.124:3702 0.0.0.0:* udp UNCONN 0 0 239.255.255.250:3702 0.0.0.0:* udp UNCONN 0 0 *:34687 *:* udp UNCONN 0 0 [fe80::ef5e:dea9:6618:7531]%wlan0:3702 [::]:* udp UNCONN 0 0 [ff02::c]%wlan0:3702 [::]:* tcp LISTEN 0 4096 127.0.0.1:631 0.0.0.0:* tcp LISTEN 0 200 127.0.0.1:5432 0.0.0.0:* tcp LISTEN 0 200 127.0.0.1:5433 0.0.0.0:* tcp LISTEN 0 511 127.0.0.1:37107 0.0.0.0:* tcp LISTEN 0 200 [::1]:5433 [::]:* tcp LISTEN 0 200 [::1]:5432 [::]:* tcp LISTEN 0 4096 [::1]:631 [::]:* "
+        },
+        {
+            "check": "SELinux Status",
+            "status": "SELinux status unknown",
+            "details": "SELinux status unknown"
+        }
+    ]
+}
